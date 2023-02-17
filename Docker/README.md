@@ -60,7 +60,7 @@ $  sudo systemctl restart docker
 $  sudo docker run --rm --runtime=nvidia --gpus all nvidia/cuda:11.6.2-base-ubuntu20.04 nvidia-smi
 ```
 ###  If you see the next table, the installation is right:
-![This is an image]([https://myoctocat.com/assets/images/base-octocat.svg](https://github.com/DevasNAI/Electro-HorchatasPuzzleBot/blob/main/Docker/Screenshot%20from%202023-02-17%2013-18-16.png))
+![This is an image](https://github.com/DevasNAI/Electro-HorchatasPuzzleBot/blob/main/Docker/Screenshot%20from%202023-02-17%2013-18-16.png)
 
 #### You need a docker account, you can do it on the next page:
 [Docker SignUp](https://hub.docker.com/signup)
