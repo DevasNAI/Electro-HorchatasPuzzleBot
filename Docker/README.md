@@ -1,9 +1,9 @@
-Indication to install the DOCKER Repository.
+#Indication to install the DOCKER Repository.
 
-This installation configure the container to use correctly the nvidia drivers and install all the ibraries that we could use to this project.
+##This installation configure the container to use correctly the nvidia drivers and install all the ibraries that we could use to this project.
 
-1. STEP ONE: Install nvidia drivers.
-  Open the "Show Applications" window from your Ubuntu version and search the app "Software & Updates".
+##1. STEP ONE: Install nvidia drivers.
+  ###Open the "Show Applications" window from your Ubuntu version and search the app "Software & Updates".
   Open the "Additional Drivers" window and select the next option:
     (Using NVIDIA driver metapackage from nvidia-driver-515 (proprietary))
   After that you have to restart the computer.
