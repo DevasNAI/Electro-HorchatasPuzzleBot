@@ -26,5 +26,9 @@ This installation configure the container to use correctly the nvidia drivers an
   $ sudo docker run hello-world
   
 NOTES: The last command will showa hello-world container from docker,that would the prouf you already have installed docker correctly. You can see
+
+3 nvidia docker 2
+4 los archivos
+5 los comandos
   
   
