@@ -97,7 +97,7 @@ $  sudo make rosm.shell
 $  sudo make rosm.shell
 $  rviz
 // This show the rviz simulator, open it in big window, if all is right close it and continue.
-$  gazibo
+$  gazebo
 // This show the gazibo simulator, open it in big window, if all is right close it and continue.
 $  rqt_plot
 // This show the plot simulator, open it in big window, if all is right close it and continue.
