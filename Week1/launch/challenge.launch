@@ -1,0 +1,16 @@
+<?xml version = "1.0"?>
+
+<launch>
+
+    <!-- Nodo generador de la señal -->
+    <node pkg="challenge1" type="signal_generator.py" name="signal_generator"
+    output= "screen" />
+
+    <!-- Nodo que procesa la señal -->
+    <node pkg="challenge1" type="process.py" name="process"
+    output="screen" launch-prefix="nice" />
+
+    <!-- rqt_plot suscrito a /signal y /proc_signal -->
+    <node pkg="rqt_plot" type="rqt_plot" name="rqt_plot" args= "/signal /proc_signal"
+    output="screen" />
+</launch>
