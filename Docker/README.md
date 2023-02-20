@@ -71,6 +71,7 @@ $ docker login
 
 ####  Move the files to your desired folder
 ####  and type the following commands:
+####  Remember you have to be on the folder where you moved the downloaded files.
 
 ```
 $  sudo apt install make
@@ -82,7 +83,6 @@ $  sudo make rosm.up
 ```
 
 ####  Note: Now you can open the shell inside the container with the next command:
-####  Remember you have to be on the folder where you moved the downloaded files.
 ```
 $  sudo make rosm.shell
 ```
