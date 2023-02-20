@@ -82,10 +82,10 @@ $  sudo make rosm.up
 ```
 
 ####  Note: Now you can open the shell inside the container with the next command:
+####  Remember you have to be on the folder where you moved the downloaded files.
 ```
 $  sudo make rosm.shell
 ```
-####  Remember you have to be on the folder where you moved the downloaded files.
 
 ## Extra: To verify if the docker works correctly.
 
