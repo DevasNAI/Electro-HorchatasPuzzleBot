@@ -69,8 +69,7 @@ $ docker login
 
 ## 4. STEP FOUR: Download the dockerfile, makefile and nvidiaGPU.bash files from this folder:
 
-####  Move the files to your desired folder
-####  and type the following commands:
+####  Move the files to your desired folder and type the following commands:
 ####  Remember you have to be on the folder where you moved the downloaded files.
 
 ```
