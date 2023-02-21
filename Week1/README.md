@@ -1,4 +1,4 @@
-## Robotics Foundation Week 1
+## Robotics Foundation Week 1 ₍⑅ᐢ..ᐢ₎
 On this week we solved the first challenge and activity, which was assigned by the benefactor **Manchester Robotics Ltd**. This challenge helped us familiarized with nodes, generating packages, using launch files for displaying data and using this data for rqt plot for the sine functions; and communication between nodes by publisher & subscribers for rostopics. 
 
 ### A little description about the files in this repository:
@@ -17,4 +17,3 @@ On this week we solved the first challenge and activity, which was assigned by t
 - Jesús Eduardo Rodríguez 
 - Izel Ávila
 
-₍⑅ᐢ..ᐢ₎
