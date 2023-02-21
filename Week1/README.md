@@ -1,5 +1,5 @@
 ## Robotics Foundation Week 1
-On this week we solved the first challenge and activity, which was assigned by the benefactor **Manchester Robotics Ltd**. This challenge helped us familiarized with nodes, generating packages, using launch files for displaying data and using this data for rqt plot for the sine functions;and communication between nodes by publisher & subscribers for rostopics. 
+On this week we solved the first challenge and activity, which was assigned by the benefactor **Manchester Robotics Ltd**. This challenge helped us familiarized with nodes, generating packages, using launch files for displaying data and using this data for rqt plot for the sine functions; and communication between nodes by publisher & subscribers for rostopics. 
 
 ### A little description about the files in this repository:
 - challenge.launch (inside the launch folder) -> This is where the nodes and rostopics are executed so their values are shown on the terminal and the rqt_plot. The rqt_plot shows the original signal (it's a sine wave) with a phased sine wave (which is the processed signal).
