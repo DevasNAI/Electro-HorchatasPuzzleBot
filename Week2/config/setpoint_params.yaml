@@ -1,0 +1,3 @@
+setpointAmplitude: 2.0
+signalType: "step"
+signalOffset: 5.0
