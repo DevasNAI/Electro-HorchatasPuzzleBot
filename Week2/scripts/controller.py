@@ -43,7 +43,7 @@ class Controller():
       self.error_future = (error - self.lastError)/dt
 
       #Calculate the signal to be sent to the system
-      self.u_val += (error * self.kp) + (self.error_prev * self.ki) + (self.error_future*self.kd)
+      self.u_val = (error * self.kp) + (self.error_prev * self.ki) + (self.error_future*self.kd)
 
       #Bound the signal to within the upper and lower limits
       if self.u_val > self.u_max:
