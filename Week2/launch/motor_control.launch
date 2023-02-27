@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<launch>
+<!-- Cargar los parametros -->
+    <rosparam file = "$(find challenge2)/config/system_params.yaml" command = "load"  />
+    <rosparam file = "$(find challenge2)/config/control_params.yaml" command = "load"  />
+    <rosparam file = "$(find challenge2)/config/setpoint_params.yaml" command = "load"  />
+    
+    <!-- Correr rqt_plot -->
+    <node name="rqt_plot" pkg="rqt_plot" type="rqt_plot" output="screen"  args="/motor_output/output /motor_input/input /set_point/setpoint"/>
+    
+    <!-- Nodos del sistema -->
+    <node name="system" pkg="challenge2" type="system.py" output="screen"/>
+    <node name="controller" pkg="challenge2" type="controller.py" output="screen"/>
+    <node name="Set_Point_Generator" pkg="challenge2" type="set_point_generator.py" output="screen"/>
+</launch>
