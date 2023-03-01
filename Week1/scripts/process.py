@@ -18,17 +18,17 @@ def callbackTime(msg):
     rospy.loginfo("Time: " + str(time))
 
 
-#   Callback de la señal
+#Callback de la senal
 def callbackSignal(msg):
     global negative
 
-    #Publisher de la señal procesada 
+    #Publisher de la senal procesada 
     newSignal = rospy.Publisher("proc_signal", Float32, queue_size=10)
 
-    #Se recibe la señal senoidal generada
+    #Se recibe la senal senoidal generada
     signalSin = msg.data
 
-    #Se obtiene el coseno con la identidad trigonometrica 1 = cos²(t) + sen²(t)
+    #Se obtiene el coseno con la identidad trigonometrica 1 = cos2(t) + sen2(t)
     signalCos = np.sqrt((1 - pow(signalSin, 2)))
 
     #Se obtiene atan2 del coseno y del seno
@@ -48,13 +48,13 @@ def callbackSignal(msg):
         #Multiplicar el coseno por -1
         signalCos = -signalCos
 
-    #Se recorre la señal con la formula sen(a + b) = sen(a)*cos(b) + sen(b)*cos(a)
+    #Se recorre la senal con la formula sen(a + b) = sen(a)*cos(b) + sen(b)*cos(a)
     # y se cambia la amplitud y se mueve para arriba
     x = signalSin * np.cos(pi/2)
     y = signalCos * np.sin(pi/2)
     signal = (x+y)*0.5 + 1
 
-    #Se imprime y se publica la señal
+    #Se imprime y se publica la senal
     rospy.loginfo("signal = " + str(signal))
     newSignal.publish(signal)
 
