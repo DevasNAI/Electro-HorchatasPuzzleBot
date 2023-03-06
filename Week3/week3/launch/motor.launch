@@ -1,0 +1,10 @@
+<?xml version="1.0" ?>
+<launch>
+    <rosparam file = "$(find week3)/config/params.yaml" command = "load"  />
+
+    <node name="motor" pkg="rosserial_python" type="serial_node.py">
+    <param name="port"	type="string"	value="/dev/ttyACM0"/>   
+    </node>
+    <node name="input" pkg="week3" type="input.py" output="screen"/>
+    
+</launch>
