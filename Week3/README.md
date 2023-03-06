@@ -4,6 +4,7 @@
 
 ## To replicate this:
 #### 1. Install Arduino IDE: [Arduino IDE](https://www.arduino.cc/en/software)
+
 #### 2. Install Rosserial library:
 ```
 sudo apt-get install ros-{ROS-DISTRO}-rosserial
@@ -21,7 +22,11 @@ sudo chmod 666 /dev/ttyUSB*
 
 #### 6. Upload the code to the Arduino
 
-#### 7. Launch the ros code with the next command:
+#### 7. Launch the ros code with the next command: (Only to test the ros code)
 ```
 rosrun week3 input.py
+```
+#### 8. To run the both code use the .launch:
+```
+roslaunch week3 motor.launch
 ```
