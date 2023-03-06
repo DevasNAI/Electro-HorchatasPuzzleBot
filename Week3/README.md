@@ -4,8 +4,9 @@
 
 ## To replicate this:
 #### 1. Install Arduino IDE: [Arduino IDE](https://www.arduino.cc/en/software)
+#### You have to install the rosserial library on Arduino IDE.
 
-#### 2. Install Rosserial library:
+#### 2. Install Rosserial library on ROS:
 ```
 sudo apt-get install ros-{ROS-DISTRO}-rosserial
 ```
