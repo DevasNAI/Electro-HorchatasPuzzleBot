@@ -14,7 +14,7 @@ int in2 = 4; //If we send High it will go counterclockwise
 float PWM = 0;
 
 //In this function we receive the data of the ROS node and calculate how the motor should move
-void message( const std_msgs::Float32& PWM1){ //Recibimos el topico en la variable PWM1
+void message( const std_msgs::Float32& PWM1){ //We receive the topic in the PWM1 variable
   PWM = PWM1.data; //We store the topic in the PWM variable
     //We define how the code will normally start
   digitalWrite(in1, HIGH); 
