@@ -62,22 +62,3 @@ void loop() {
   
   delay(1);
 }
-ros::Subscriber<std_msgs::Float32> sub("/set_point", &message);
-
-void setup() {
-  // put your setup code here, to run once:
-  pinMode(enable, OUTPUT);
-  pinMode(in1, OUTPUT);
-  pinMode(in2, OUTPUT);
-
-  nh.initNode();
-  nh.subscribe(sub);
-  
-}
-
-void loop() {
-  // put your main code here, to run repeatedly:
-  nh.spinOnce();
-  
-  delay(1);
-}
