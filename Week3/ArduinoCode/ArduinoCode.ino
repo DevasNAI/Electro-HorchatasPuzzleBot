@@ -1,38 +1,38 @@
-//Incluir las librearias necesarias
-#include <ros.h> //Libreria para usar los comandos de ROS
-#include <std_msgs/Float32.h> //Libreria para utilizar datos de tipo Float32
+//Include the necessary libraries
+#include <ros.h> //Library to use ROS commands
+#include <std_msgs/Float32.h> //Library to use Float32 type data
 
-ros::NodeHandle nh; //Este comando inicializa el nodo 
+ros::NodeHandle nh; //This command initialize the node
 
-// Definimos los pines del Arduino y los guardamos en las variables
-int enable = 2; //En el pin 2 mandamos el valor PWM
-//Estos pines definen si el motor ira en el sentido horario o al contrario
-int in1 = 3; //Si mandamos HIGH ira en sentido horario
-int in2 = 4; //Si mandamos High ira en sentido anti-horario
+//We define the pins of the Arduino and save them in the variables
+int enable = 2; //In the pin 2 we send the PWM value
+//This pins define if the motor will go clockwise or or counterclockwise
+int in1 = 3; //If we send HIGH it will go clockwise
+int in2 = 4; //If we send High it will go counterclockwise
 
-// Definimos la variable PWM donde estaremos almacenando el dato recibido del nodo de ROS
+//We define the variable PWM where we will be storing the data received from the ROS node
 float PWM = 0;
 
-// En esta funcion recibimos el dato del nodo de ROS y calculamos como se debera de mover el motor
+//In this function we receive the data of the ROS node and calculate how the motor should move
 void message( const std_msgs::Float32& PWM1){ //Recibimos el topico en la variable PWM1
-  PWM = PWM1.data; //Almacenamos el topico en la variable PWM
-  // Definimos como iniciara normalmente el codigo
+  PWM = PWM1.data; //We store the topic in the PWM variable
+    //We define how the code will normally start
   digitalWrite(in1, HIGH); 
   digitalWrite(in2, LOW);
-  if (PWM > 255){  //Si el valor de PWM es mayor a 255 (El max permitido) unicamente mandamos 255 al motor
+  if (PWM > 255){  //If the PWM value is greater than 255 (the max allowed) we only send 255 to the motor
     analogWrite(enable, 255);
   }
-  else if (PWM<=0){  // Si PWM es menor o igual a 0 invertimos el movimiento del motor
+  else if (PWM<=0){  //If the PWM is less than or equal than 0 we invert movement of the motor
     digitalWrite(in1, LOW);
     digitalWrite(in2, HIGH);
-    analogWrite(enable, -1*PWM1.data); // Como PWM es negativo y no podemos mandar valores negativos lo multiplicamos por -1
+    analogWrite(enable, -1*PWM1.data); // Since the PWM is negative we can't send negative values we multiply it by -1
   }
-  else if (PWM>0 and PWM<255){ //Si PWM es mayor a 0 y menor a 255 funciona con normalidad
+  else if (PWM>0 and PWM<255){ //If PWM is greater than 0 and less than 255 it works normally
     digitalWrite(in1, HIGH);
     digitalWrite(in2, LOW);
     analogWrite(enable, PWM1.data);
   }
-  else if (PWM<-255){  // Si PWM es menor a -255 invertimos el movimiento y mandamos 255 constante
+  else if (PWM<-255){  // If PWM is less than -255 we invert the movement and send a constant 255
     digitalWrite(in1, LOW);
     digitalWrite(in2, HIGH);
     analogWrite(enable, 255);
@@ -40,17 +40,17 @@ void message( const std_msgs::Float32& PWM1){ //Recibimos el topico en la variab
   }
 }
 
-// Con esto nos suscribimos al topico de ROS y mandamos el dato a la funcion message
+// With this we subscribe to the ROS topic and send the data to the message function
 ros::Subscriber<std_msgs::Float32> sub("/set_point", &message);
 
-// Aqui se inicializa y define el codigo
+// Here the code is initialize and defined
 void setup() {
   // put your setup code here, to run once:
   pinMode(enable, OUTPUT);
   pinMode(in1, OUTPUT);
   pinMode(in2, OUTPUT);
 
-  // Inicializamos el nodo y el subscribe
+  // We initialize the node and the subscribe
   nh.initNode();
   nh.subscribe(sub);
   
