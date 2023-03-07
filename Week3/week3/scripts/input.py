@@ -9,6 +9,11 @@ from std_msgs.msg import Float32
 goal = Float32() 
 #goal.status = "Setpoint has been sent"
 
+#We call the parameters and save them on the respective variables
+setpointAmplitude = rospy.get_param("/setpointAmplitude")
+signalType = rospy.get_param("/signalType")
+signalOffset = rospy.get_param("/signalOffset")
+
 #Stop Condition
 def stop():
  #Setup the stop message (can be the same as the control message)
