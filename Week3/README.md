@@ -7,6 +7,7 @@
 #### You have to install the rosserial library on Arduino IDE.
 
 #### 2. Install Rosserial library on ROS:
+#### You need to write your ROS version, in our case is melodic, instead of {ROS-DISTRO}
 ```
 sudo apt-get install ros-{ROS-DISTRO}-rosserial
 ```
