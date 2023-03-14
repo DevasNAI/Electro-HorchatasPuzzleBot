@@ -11,4 +11,8 @@
 
     <node name="input" pkg="motor_control" type="input.py" output="screen"/>
     <node name="controller" pkg="motor_control" type="controller.py" output="screen"/>
+
+    <!-- rqt_plot suscrito a /signal y /proc_signal -->
+    <node pkg="rqt_plot" type="rqt_plot" name="rqt_plot" args= "/motor_output /set_point/setpoint"
+    output="screen" />
 </launch>

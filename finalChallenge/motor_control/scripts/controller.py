@@ -33,11 +33,12 @@ class Controller():
 
   def control(self):
       #Get delta t
+      errorPub = rospy.Publisher("/error", Float32, queue_size=1)
       t = rospy.get_time()
       dt = t - self.t_prev
 
       #Calculate the error and approximate its integral with a sum and the derivative with the slope of the last and current error.
-      error = (self.setpoint - self.output) 
+      error = (self.setpoint - self.output)
       self.error_prev += error*dt
       self.error_future = (error - self.lastError)/dt
 
@@ -45,14 +46,16 @@ class Controller():
       self.u_val = (error * self.kp) + (self.error_prev * self.ki) + (self.error_future*self.kd)
 
       #Bound the signal to within the upper and lower limits
-      # if self.u_val > self.u_max:
-      #   self.u_val = self.u_max
-      # elif self.u_val < self.u_min:
-      #   self.u_val = self.u_min
+      if self.u_val > self.u_max:
+        self.u_val = self.u_max
+      elif self.u_val < self.u_min:
+        self.u_val = self.u_min
 
       #Store the current error and time
       self.lastError = error
       self.t_prev = t
+
+      errorPub.publish(self.error_future)
 
       #Return the processed signal
       return self.u_val
