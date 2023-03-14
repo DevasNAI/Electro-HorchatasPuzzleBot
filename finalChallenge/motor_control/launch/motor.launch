@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<launch>
+    <!-- Cargar los parametros -->
+    <rosparam file = "$(find motor_control)/config/signalParams.yaml" command = "load"  />
+    <rosparam file = "$(find motor_control)/config/control_params.yaml" command = "load"  />
+
+    <!-- Nodos del sistema -->
+    <node name="motor" pkg="rosserial_python" type="serial_node.py">
+    <param name="port"	type="string"	value="/dev/ttyACM0"/>   
+    </node>
+
+    <node name="input" pkg="motor_control" type="input.py" output="screen"/>
+    <node name="controller" pkg="motor_control" type="controller.py" output="screen"/>
+</launch>
