@@ -1,32 +1,35 @@
 #!/usr/bin/env python
+# Import all the libraries and the custom messages
 import rospy
 import numpy as np
 from std_msgs.msg import Float32
 from challenge2.msg import set_point
 
+#Create the controller class
 class Controller():
   def __init__(self):
+    # Set the initialize parammeters 
     self.setpoint = 0.0
     self.u_val = 0.0
     self.output = 0.0
 
+    # Set the initial variables of the error
     self.lastError = 0.0
     self.error_prev = 0.0
     self.t_prev = rospy.get_time()
 
     self.motor = Float32()
 
-    #Parameters
+    # Get the parameters from the .yaml
     self.u_max = rospy.get_param("/u_max", 1.0)
     self.u_min = rospy.get_param("/u_min", -1.0)
     self.kp = rospy.get_param("/kp", 0.12)
     self.ki = rospy.get_param("/ki", 0.025)
     self.kd = rospy.get_param("/kd", 0)
 
-    #Setup Publishers and subscribers here
-    rospy.Subscriber("/set_point", set_point, self.callbackSetpoint)
-    rospy.Subscriber("/motor_output", Float32, self.callbackMotorOutput)
-
+    # Setup Publishers and subscribers here
+    rospy.Subscriber("/set_point", set_point, self.callbackSetpoint) # Receive the set_point value
+    rospy.Subscriber("/motor_output", Float32, self.callbackMotorOutput) # 
     self.inputSignal = rospy.Publisher("/motor_input", Float32, queue_size=1)
 
     pass
