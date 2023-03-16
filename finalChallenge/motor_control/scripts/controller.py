@@ -29,11 +29,11 @@ class Controller():
 
     # Setup Publishers and subscribers here
     rospy.Subscriber("/set_point", set_point, self.callbackSetpoint) # Receive the set_point value
-    rospy.Subscriber("/motor_output", Float32, self.callbackMotorOutput) # 
-    self.inputSignal = rospy.Publisher("/motor_input", Float32, queue_size=1)
+    rospy.Subscriber("/motor_output", Float32, self.callbackMotorOutput) # Receive the output final value
+    self.inputSignal = rospy.Publisher("/motor_input", Float32, queue_size=1) # Publish the motor input
 
     pass
-
+# On this function we define  
   def control(self):
       #Get delta t
       errorPub = rospy.Publisher("/error", Float32, queue_size=1)
