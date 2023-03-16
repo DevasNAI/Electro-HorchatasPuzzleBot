@@ -1,5 +1,9 @@
 #include <ros.h>
 #include <std_msgs/Float32.h>
+#include  <Wire.h>
+#include  <LiquidCrystal_I2C.h>
+
+LiquidCrystal_I2C lcd(0x27,16,2); 
 
 ros::NodeHandle nh;
 int pwm = 2;
@@ -30,6 +34,8 @@ const float rad_to_deg = 57.29578;
 float movingAvg[10];
 int index = 0;
 float avg = 0.0;
+
+long prevT = 0;
 
 void messageCb( const std_msgs::Float32& message){
   int speed = message.data * 255;
@@ -73,7 +79,7 @@ void motor_pulse(){
 
 
   if (direction) {
-    rpm = 60000000.0 / (time*pulsesPerREV*35*220);//(float)(((1/time)*pulsesPerREV)*60000)/35;
+    rpm = 60000000.0 / (time*pulsesPerREV*35*220);
   }
   else {
     rpm = -1*60000000.0 / (time*pulsesPerREV*35*220);
@@ -91,6 +97,8 @@ ros::Publisher pub("motor_output", &output);
 
 void setup() {
   // put your setup code here, to run once:
+  lcd.init();                    
+  lcd.backlight();
   pinMode(pwm, OUTPUT);
   pinMode(in1, OUTPUT);
   pinMode(in2, OUTPUT);
@@ -105,14 +113,26 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
   // Record the time
+  long currT = millis();
+  long time = currT - prevT;
+
+  rpm = 0;
   for (int i = 0; i < 10; i++){
     rpm += movingAvg[i];
   }
   rpm = rpm/10;
   
-  
   output.data = rpm;
   nh.spinOnce();
   pub.publish(&output);
-  //delay(10);
+  if (time > 250){
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("RPM: "); 
+    lcd.print(rpm*220);
+    lcd.setCursor(0, 1);
+    lcd.print("Rad/s: "); 
+    lcd.print(rpm*220*rpm_to_radians);
+    prevT = currT;
+  }
 }
