@@ -1,2 +1,2 @@
 setpointAmplitude: 0.8
-signalType: "sine"
+signalType: "square"

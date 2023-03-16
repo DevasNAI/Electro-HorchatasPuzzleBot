@@ -34,6 +34,7 @@ class Controller():
   def control(self):
       #Get delta t
       errorPub = rospy.Publisher("/error", Float32, queue_size=1)
+      errorSqrPub = rospy.Publisher("/errorSqr", Float32, queue_size=1)
       t = rospy.get_time()
       dt = t - self.t_prev
 
@@ -55,7 +56,8 @@ class Controller():
       self.lastError = error
       self.t_prev = t
 
-      errorPub.publish(self.error_future)
+      errorPub.publish(error*error)
+      errorSqrPub.publish(error)
 
       #Return the processed signal
       return self.u_val
@@ -69,8 +71,6 @@ class Controller():
   def callbackMotorOutput(self, msg):
       #Send the feedback to the controller and publish the adjusted signal
       self.output = float(msg.data)
-      self.motor = self.control()
-      self.inputSignal.publish(self.motor)
 
 #Stop Condition
 def stop():
@@ -78,10 +78,9 @@ def stop():
   print("Stopping")
 
 def main():
-    global pid
     #Initialise and Setup node
     rospy.init_node("controller")
-    rate = rospy.Rate(50)
+    rate = rospy.Rate(150)
     rospy.on_shutdown(stop)
 
     print("The Controller is Running")
@@ -90,6 +89,8 @@ def main():
 
     #Run the node
     while not rospy.is_shutdown():
+      pid.motor = pid.control()
+      pid.inputSignal.publish(pid.motor)
       rate.sleep()
 
 main()

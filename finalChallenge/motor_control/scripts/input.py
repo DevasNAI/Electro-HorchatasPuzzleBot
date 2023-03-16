@@ -9,7 +9,7 @@ from motor_control.msg import set_point
 #Setpoint to send
 goal = set_point()
 #Parameters
-setpointAmplitude = rospy.get_param("/setpointAmplitude", 30.0)
+setpointAmplitude = rospy.get_param("/setpointAmplitude", 1.0)
 signalType = rospy.get_param("/signalType", "sine")
 
 #Stop Condition
