@@ -6,25 +6,28 @@ import numpy as np
 
 if __name__ == "__main__":
 
-    #Publishers
+    #   ROS Topic Publishers
+    #       Signal topic will be a Sine signal in respect to current time
+    #       Time topic will have the current time value
     signal = rospy.Publisher("signal", Float32, queue_size=10)
     time = rospy.Publisher("time", Float32, queue_size=10)
     
-    #Inicializacion del nodo
+    #   Signal Generator Node initialization
     rospy.init_node("signal_generator")
 
     rate = rospy.Rate(10)
-    
+    #   Infinite loop
     while not rospy.is_shutdown():
-        #Se obtiene el tiempo actual
+        #   Current time is obtained
         currentTime = rospy.get_time()
 
-        #Se calcula el valor del seno
+        #   Sine value in "current Time" is obtained
         currentY = np.sin(currentTime)
 
-        #Se publica la señal y el tiempo actual
+        #   Current time and Sine signal are published through their respective topics
         signal.publish(currentY)
         time.publish(Float32(currentTime))
+        #   Time and Sine values are printed on terminal
         rospy.loginfo("Y (" + str(currentTime) + ") = "  + str(currentY))
 
         rate.sleep()

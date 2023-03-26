@@ -17,3 +17,7 @@ On this week we solved the first challenge and activity, which was assigned by t
 - Jesús Eduardo Rodríguez 
 - Izel Ávila
 
+## How to run the package?
+    In order to run the package, it is required to add the "Week1" folder as a ROS Package on your catkin_ws folder, then you should compile the environment and proceed with the following instruction. To run the package you must execute a command on the terminal, which will enable roscore, run both python scripts, and open an RQT plot window that will graph the signal and proc_signal topics.
+
+    roslaunch Week1 challenge.launch

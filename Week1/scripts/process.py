@@ -4,65 +4,76 @@ import rospy
 from std_msgs.msg import Float32
 import numpy as np
 
-#Definicion de variables
+#   Variable definition
 pi = np.pi
 signal = 0 
 time = 0
+#   This varaible will help us change the direction of an absolute Cosine signal
 negative = False
 
-#Callback del tiempo
+#   Time Callback
 def callbackTime(msg):
-    #Imprimir el tiempo
+    """
+        CallbackTime
+        Receives a message and assigns the message to a local and global variable
+    """
+    #   Assigns the topic value into a global variable
     global time
     time = msg.data
+    #   Prints time
     rospy.loginfo("Time: " + str(time))
 
 
-#Callback de la senal
+#   Signal Callback
 def callbackSignal(msg):
+    """
+        Receives a sine signal and tries to use the same signal to add a cosine signal,
+            it then goes through trigonometric opperations and publishes the topic.
+    """
     global negative
 
-    #Publisher de la senal procesada 
+    #   Processed signal Publisher topic
     newSignal = rospy.Publisher("proc_signal", Float32, queue_size=10)
 
-    #Se recibe la senal senoidal generada
+    #   Receives a sine signal from the topic
     signalSin = msg.data
 
-    #Se obtiene el coseno con la identidad trigonometrica 1 = cos2(t) + sen2(t)
+    #   It obtains a Cosine signal through the trigonometric identity: 1 = cos2(t) + sen2(t)
     signalCos = np.sqrt((1 - pow(signalSin, 2)))
 
-    #Se obtiene atan2 del coseno y del seno
+    #   We obtain an inverse Tangent with the cosine and sine signals
     p = round(np.arctan2(signalCos, signalSin),2)
     
-    #Si atan2 se aproxima a pi
+    #   Conditions to change the resulted cosine value to negative or positive with the help of the arctangent.
     if abs(p) >= 3.08:
-        #Cambiar el estado de la variable negative a True
+        #   negative variable state changes to True
         negative = True
-    #Si atan2 se aproxima a 0
+    #   If arctan value is reaching 0,
     elif abs(p) <= 0.06:
-        #Cambiar el estado de la variable negative a True
+        #   It changes negative variable state to False
         negative = False
 
-    #Si negative == True
+    #   If the control variable is positive, then the cosine signal will have a negative value.
     if negative:
-        #Multiplicar el coseno por -1
+        #   Cosine negative multiplication
         signalCos = -signalCos
 
-    #Se recorre la senal con la formula sen(a + b) = sen(a)*cos(b) + sen(b)*cos(a)
-    # y se cambia la amplitud y se mueve para arriba
+    #   Signal gets shifted with sin(a + b) = sin(a)*cos(b) + sin(b)*cos(a) formula
+    #       and 'y's amplitude is changed and shifted upwar.
     x = signalSin * np.cos(pi/2)
     y = signalCos * np.sin(pi/2)
+    #=  Final signal
     signal = (x+y)*0.5 + 1
 
-    #Se imprime y se publica la senal
+    #   Signal is printed and published in a topic
     rospy.loginfo("signal = " + str(signal))
     newSignal.publish(signal)
 
 if __name__ == "__main__":
-    #Inicializacion del nodo
+    #   Process node initialization
     rospy.init_node("process")
     
-    #Subscribers
+    #   ROS Topic Subscription
     rospy.Subscriber("/signal", Float32, callbackSignal)
     rospy.Subscriber("/time", Float32, callbackTime)
 
