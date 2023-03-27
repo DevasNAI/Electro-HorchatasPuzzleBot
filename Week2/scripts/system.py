@@ -73,7 +73,7 @@ class SimpleSystem:
         else:
           self.proc_output += dt*((-1.0/self.param_T) * self.proc_output + (self.param_K/self.param_T) * self.Input.input)  
     
-        #Message to publish
+        # Message to publish
         self.output.output= self.proc_output
         self.output.time = rospy.get_time() - self.start_time
         self.MotorStatus(self.proc_output)

@@ -1,3 +1,7 @@
+### Parameters for signal generator
+# Signal amplitude value
 setpointAmplitude: 2.0
-signalType: "step"
+# Sine signal offset
 signalOffset: 5.0
+# Type of signal. Options: "step", "square" and "sine"
+signalType: "step"
