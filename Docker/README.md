@@ -13,26 +13,26 @@
 
 
 ```
-$ sudo apt-get update
-$ sudo apt-get install \
+sudo apt-get update
+sudo apt-get install \
       ca-certificates \
       curl \
       gnupg \
       lsb-release
-$ sudo mkdir -m 0755 -p /etc/apt/keyrings
-$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg 
-$ echo \ "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \ $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+sudo mkdir -m 0755 -p /etc/apt/keyrings
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg 
+echo \ "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \ $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-$ sudo apt-get update
-$ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 
-$ sudo groupadd docker
-$ sudo usermod -aG docker $USER
-$ newgrp docker
-$ sudo chgrp docker /lib/systemd/system/docker.socket
-$ sudo chmod g+w /lib/systemd/system/docker.socket
+sudo groupadd docker
+sudo usermod -aG docker $USER
+newgrp docker
+sudo chgrp docker /lib/systemd/system/docker.socket
+sudo chmod g+w /lib/systemd/system/docker.socket
 
-$ sudo docker run hello-world
+sudo docker run hello-world
 ```
 
 #### NOTES: The last command will print a hello-world container from docker, which shows you have already installed docker correctly. You can see this instrucions on their website: [Docker Install](https://docs.docker.com/engine/install/ubuntu/)
