@@ -42,19 +42,19 @@ sudo docker run hello-world
 
 
 ```
-$  curl https://get.docker.com | sh \ && sudo systemctl --now enable docker
+curl https://get.docker.com | sh \ && sudo systemctl --now enable docker
 
-$  distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
+distribution=$(. /etc/os-release;echo $ID$VERSION_ID) \
       && curl -fsSL https://nvidia.github.io/libnvidia-container/gpgkey | sudo gpg --dearmor -o /usr/share/keyrings/nvidia-container-toolkit-keyring.gpg \
       && curl -s -L https://nvidia.github.io/libnvidia-container/$distribution/libnvidia-container.list | \
             sed 's#deb https://#deb [signed-by=/usr/share/keyrings/nvidia-container-toolkit-keyring.gpg] https://#g' | \
             sudo tee /etc/apt/sources.list.d/nvidia-container-toolkit.list
 
-$  sudo apt-get update
-$  sudo apt-get install -y nvidia-container-toolkit
-$  sudo nvidia-ctk runtime configure --runtime=docker
-$  sudo systemctl restart docker
-$  sudo docker run --rm --runtime=nvidia --gpus all nvidia/cuda:11.6.2-base-ubuntu20.04 nvidia-smi
+sudo apt-get update
+sudo apt-get install -y nvidia-container-toolkit
+sudo nvidia-ctk runtime configure --runtime=docker
+sudo systemctl restart docker
+sudo docker run --rm --runtime=nvidia --gpus all nvidia/cuda:11.6.2-base-ubuntu20.04 nvidia-smi
 ```
 ###  If you see the next table, the installation is complete:
 ![This is an image](https://github.com/DevasNAI/Electro-HorchatasPuzzleBot/blob/main/Docker/Screenshot%20from%202023-02-17%2013-18-16.png)
@@ -64,7 +64,7 @@ $  sudo docker run --rm --runtime=nvidia --gpus all nvidia/cuda:11.6.2-base-ubun
 
 #### Now login on your console
 ```
-$ docker login
+docker login
 ```
 
 ## 4. STEP FOUR: Download the dockerfile, makefile and nvidiaGPU.bash files from this folder:
@@ -73,42 +73,42 @@ $ docker login
 ####  Remember you have to be on the folder where you moved the downloaded files.
 
 ```
-$  sudo apt install make
-$  sudo make rosm.build
+sudo apt install make
+sudo make rosm.build
 
-$  chmod +x nvidiaGPU.bash
-$  sudo make rosm.nvidia
-$  sudo make rosm.up
+chmod +x nvidiaGPU.bash
+sudo make rosm.nvidia
+sudo make rosm.up
 ```
 
 ####  Note: Now you can open the shell inside the container with the next command:
 ```
-$  sudo make rosm.shell
+sudo make rosm.shell
 ```
 
 ## Extra: To verify if the docker works correctly.
 
 #### Open a terminal
 ```
-$  sudo make rosm.shell
+sudo make rosm.shell
 
 // This will open rviz.
-$  rviz
+rviz
 
 // This will open gazebo.
-$  gazebo
+gazebo
 
 // This will open rqt_plot.
-$  rqt_plot
+rqt_plot
 
 // This will open rqt_graph.
-$  rqt_graph
+rqt_graph
 
 // This will open rqt.
-$  rqt
+rqt
 
-$  sudo apt install mesa-utils
-$  glxgears
+sudo apt install mesa-utils
+glxgears
 
 // If the gears apppear in a window that means that the docker has access to your graphics card, if all is correct you can close the window. It takes a lot of time, don't worry this is normal.
 ```
