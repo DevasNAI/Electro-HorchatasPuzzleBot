@@ -7,7 +7,9 @@ from std_srvs.srv import Empty
 
 wl = 0.0
 wr = 0.0
-angle = -1.57
+
+#starting pose for the puzzlebot44
+angle = -1.574
 positionx = -0.95
 positiony = 0.75
 position = Pose()
@@ -37,25 +39,29 @@ if __name__ == "__main__":
     
     while not rospy.is_shutdown():
         currentTime = rospy.get_time()
-
+        
+        # if gazebo sim is restarted
         if currentTime <= 1:
             angle = -1.57
             positionx = -0.95
             positiony = 0.75
-
+            
+        #Get time difference
         dt = currentTime - lastTime
-
+        
+        #Calculate angle and wrap to 2pi
         angle += 0.05*((wr - wl) / 0.19) * dt
-
         angle = angle % 6.28
-
+        
+        #Calculate position in x and y
         positionx += 0.05*((wr + wl) / 2) * dt * np.cos(angle)
         positiony += 0.05*((wr + wl) / 2) * dt * np.sin(angle)
         
+        #set and publish message 
         position.position.x = positionx
         position.position.y = positiony
         position.orientation.z = angle
-
         posePub.publish(position)
+        
         print(position)
         lastTime = currentTime
