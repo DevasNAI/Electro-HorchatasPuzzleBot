@@ -8,7 +8,7 @@ from std_srvs.srv import Empty
 wl = 0.0
 wr = 0.0
 
-#starting pose for the puzzlebot44
+#starting pose for the puzzlebot
 angle = -1.574
 positionx = -0.95
 positiony = 0.75
