@@ -13,3 +13,4 @@ Team members
     Andres Sarellano
     Jesús Eduardo Rodríguez
     Izel Ávila
+    Sebastian Joya
