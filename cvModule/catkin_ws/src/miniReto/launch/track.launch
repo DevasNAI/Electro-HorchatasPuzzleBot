@@ -1,0 +1,5 @@
+<?xml version="1.0" ?>
+<launch>
+    <node name="image" pkg="miniReto" type="handTracker.py" output="screen" launch-prefix="nice"/>
+    <node name="rqt_image_view" pkg="rqt_image_view" type="rqt_image_view"  output="screen" args="/handTracker"/>
+</launch>

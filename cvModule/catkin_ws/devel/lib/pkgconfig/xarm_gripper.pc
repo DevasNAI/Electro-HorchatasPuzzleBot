@@ -1,0 +1,8 @@
+prefix=/home/andy/Documents/Repositorios/catkin_ws/devel
+
+Name: xarm_gripper
+Description: Description of xarm_gripper
+Version: 1.0.0
+Cflags: -I/home/andy/Documents/Repositorios/catkin_ws/devel/include
+Libs: -L${prefix}/lib 
+Requires: actionlib_msgs xarm_api xarm_msgs
