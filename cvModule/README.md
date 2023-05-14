@@ -8,5 +8,9 @@
   ![image](https://github.com/DevasNAI/Electro-HorchatasPuzzleBot/assets/55808186/8d7ec7fb-73dd-4cad-a3d5-35938ca764b7)
 
   In our case, we decided to have a pinhole camera approach in order to teleoperate the robot, detecting two hands from our webcamera, including our fingers, using 21 points, and once we detected our hands, we estimated their position depending on the place in which the generated points are located in the image matrix, for which the right hand brings us the x and y axis, while the left hand provides us the z axis.
+  
+  (Insertar video de mano sola)  
+  
+  Once we were able to obtain the position of our hands, we then proceeded to find a way to implement and manipulate a robot with our sample data.
 
 
