@@ -12,6 +12,9 @@
   (Insertar video de mano sola)
   [![Watch the video](https://drive.google.com/file/d/1AH9lAAqefOJhfmlqpU-pGO1G-nx83wwM/view?usp=share_link)](https://drive.google.com/file/d/1AH9lAAqefOJhfmlqpU-pGO1G-nx83wwM/view?usp=share_link)
   
-  Once we were able to obtain the position of our hands, we then proceeded to find a way to implement and manipulate a robot with our sample data.
+  Once we were able to obtain the position of our hands, we then proceeded to find a way to implement and manipulate a robot with our sample data. First, we decided to use the xarm7 manipulator robot, which is open source and has a variety of plugins that allow us to use multiple functions and commands, which could be useful for this application.
+  
+  
+  
 
 
