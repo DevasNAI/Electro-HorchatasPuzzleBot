@@ -9,7 +9,8 @@
 
   In our case, we decided to have a pinhole camera approach in order to teleoperate the robot, detecting two hands from our webcamera, including our fingers, using 21 points, and once we detected our hands, we estimated their position depending on the place in which the generated points are located in the image matrix, for which the right hand brings us the x and y axis, while the left hand provides us the z axis.
   
-  (Insertar video de mano sola)  
+  (Insertar video de mano sola)
+  ![video](https://drive.google.com/file/d/1AH9lAAqefOJhfmlqpU-pGO1G-nx83wwM/view?usp=share_link)
   
   Once we were able to obtain the position of our hands, we then proceeded to find a way to implement and manipulate a robot with our sample data.
 
