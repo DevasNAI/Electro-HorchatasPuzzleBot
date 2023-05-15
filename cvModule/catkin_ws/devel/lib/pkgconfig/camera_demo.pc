@@ -1,8 +1,0 @@
-prefix=/home/andy/Documents/Repositorios/catkin_ws/devel
-
-Name: camera_demo
-Description: Description of camera_demo
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

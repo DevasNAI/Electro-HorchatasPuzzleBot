@@ -1,8 +1,0 @@
-prefix=/home/andy/Documents/Repositorios/catkin_ws/devel
-
-Name: lite6_moveit_config
-Description: Description of lite6_moveit_config
-Version: 0.3.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 
