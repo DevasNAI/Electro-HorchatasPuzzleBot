@@ -1,8 +1,0 @@
-prefix=/home/andy/Documents/Repositorios/catkin_ws/devel
-
-Name: run_recorded_traj
-Description: Description of run_recorded_traj
-Version: 0.0.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

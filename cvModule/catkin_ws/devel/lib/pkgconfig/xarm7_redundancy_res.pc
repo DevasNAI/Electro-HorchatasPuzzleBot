@@ -1,8 +1,0 @@
-prefix=/home/andy/Documents/Repositorios/catkin_ws/devel
-
-Name: xarm7_redundancy_res
-Description: Description of xarm7_redundancy_res
-Version: 2.2.0
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: rospy std_msgs

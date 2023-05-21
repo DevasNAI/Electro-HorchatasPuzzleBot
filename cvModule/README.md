@@ -9,12 +9,39 @@
 
   In our case, we decided to have a pinhole camera approach in order to teleoperate the robot, detecting two hands from our webcamera, including our fingers, using 21 points, and once we detected our hands, we estimated their position depending on the place in which the generated points are located in the image matrix, for which the right hand brings us the x and y axis, while the left hand provides us the z axis.
   
+  
   (Insertar video de mano sola)
   [![Watch the video](https://drive.google.com/file/d/1AH9lAAqefOJhfmlqpU-pGO1G-nx83wwM/view?usp=share_link)](https://drive.google.com/file/d/1AH9lAAqefOJhfmlqpU-pGO1G-nx83wwM/view?usp=share_link)
   
   Once we were able to obtain the position of our hands, we then proceeded to find a way to implement and manipulate a robot with our sample data. First, we decided to use the xarm7 manipulator robot, which is open source and has a variety of plugins that allow us to use multiple functions and commands, which could be useful for this application.
   
-  
-  
+# Welcome to my super coool branch! (wooooooo)
+
+1. Clone the vision package inside cvModule.
+
+Dependencies:
+
+- ROS Noetic Full Desktop
+- Mediapipe
+- Gazebo
 
 
+2. How to run (each command in a different shell)
+
+```
+  roslaunch vision arm_control_gazebo.launch
+  rosrun vision goaltoArm.py
+  rosrun vision handTracker.py
+```
+
+2. How to activate gripper
+
+```
+  #Turn gripper on
+  rosservice call /vacuum_gripper/on "{}"
+  #Turn gripper off
+  rosservice call /vacuum_gripper/off "{}"
+```
+
+# Demo
+https://drive.google.com/file/d/1YVtcEvpTbjajCyVIS5WszinHCdRcJD20/view?usp=share_link

@@ -1,8 +1,0 @@
-prefix=/home/andy/Documents/Repositorios/catkin_ws/devel
-
-Name: xarm_planner
-Description: Description of xarm_planner
-Version: 0.0.0
-Cflags: -I/home/andy/Documents/Repositorios/catkin_ws/devel/include
-Libs: -L${prefix}/lib 
-Requires: message_runtime geometry_msgs std_msgs
