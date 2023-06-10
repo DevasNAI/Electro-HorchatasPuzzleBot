@@ -17,11 +17,7 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN echo "Europe/Paris" > /etc/localtime ; echo "CUDA Version 10.2.0" > /usr/local/cuda/version.txt
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update -y && apt-get upgrade -y && apt-get autoremove -y && \
-    apt-get install --no-install-recommends lsb-release wget less udev sudo -y && \
-    wget -q -O ZED_SDK_Linux_Ubuntu18.run https://download.stereolabs.com/zedsdk/3.7/cu102/ubuntu18 && \
-    chmod +x ZED_SDK_Linux_Ubuntu18.run ; ./ZED_SDK_Linux_Ubuntu18.run -- silent runtime_only && \
-    rm ZED_SDK_Linux_Ubuntu18.run && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get install --no-install-recommends lsb-release wget less udev sudo -y
 
 RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
 RUN sudo apt -y install curl 
