@@ -1,114 +1,142 @@
-#!/usr/bin/env python
-import rospy
+#!/usr/bin/env python3
+#
+#Code developed by: Team EHorchatas
+#Date: 18/06/2023
+
+
+#Libraries Definition
+import cv2
 import numpy as np
-from std_msgs.msg import Float32
-from geometry_msgs.msg import Twist, TwistStamped, Point, Pose
+import time
+import rospy
+from std_msgs.msg import Float32, String
+from geometry_msgs.msg import Twist
 from std_srvs.srv import Empty
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge, CvBridgeError
 
-class open_loop:
-  def __init__(self):
-    # create publisher and message as instance variables
-    print("INIT S")
-    self.publisher = rospy.Publisher("/cmd_vel", Twist, queue_size=1)
-    self.msg = Twist()
-    self.points = [(1,2), (0,0), (-1,-2), (3,3), (1,1)]
-    self.current = 0
-    self.thetaT = 0 
-    print("Currently on init")
-    # do some cleanup on shutdown
-    rospy.on_shutdown(self.stop)
 
-    # start by moving robot
-    rospy.init_node('robot_control')
+class LineFollower:
 
-    self.turn = True
-    self.linV = 0
-    self.angV = 0
-    self.integral = 0
+    def __init__(self):
 
-    self.pose = Pose()
+        #class variables initialization
+        self.p=0.0015
+        self.d=0.00005
+        self.prev_error=0
+        self.width, self.height = 480, 360
+        self.cx=0
+        self.maxSpeed=0.2
+        self.minSpeed=0.05
+        self.errorMax_Speed=80
+        self.line_Speed=0
+        self.flag=0
+        self.last_time=0
+        self.msg = Twist()
+        self.imgThres = None
+        self.avgError = []
 
-    rospy.Subscriber("pose", Pose, self.cbPose)
-    self.target = Point()
-
-    self.target.x = self.points[self.current][0]
-    self.target.y = self.points[self.current][1]
-    rospy.wait_for_service('/gazebo/reset_simulation')
-    reset_world = rospy.ServiceProxy('/gazebo/reset_simulation', Empty)
-    reset_world()
     
-    self.main()
+    #Function to ctrop the received image
+    def crop_size(self,height, width):
+        #Get the measures to crop the image
+        return (8*height//10, 10*height//10, 2*width//10, 8*width//10)
 
-  def main(self):
-    while not rospy.is_shutdown():
-      
-      if self.turn:
+
+    #Function to apply filters and get the line to be followed by the Puzzlebot
+    def crop_thres(self,crop):
         
-        self.thetaT = np.arctan2(self.target.y, self.target.x)
-        if (self.target.x - self.pose.position.x < 0 and self.target.y - self.pose.position.y < 0 and np.arctan2(self.target.y, self.target.x) != 0):
-          self.thetaT2 = (np.arctan2(self.target.y - self.pose.position.y , self.target.x - self.pose.position.x) + 6.28)
-          self.thetaT = self.thetaT2
-          print(self.thetaT)
+        gray = cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY)
+        ret, thresh = cv2.threshold(gray, 100, 255, cv2.THRESH_BINARY_INV)
+        contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
 
-        if self.thetaT < 0:
-          self.thetaT = 2*np.pi + self.thetaT
-        elif self.thetaT <= 0:
-          self.thetaT2 = (np.arctan2(self.target.y - self.pose.position.y , self.target.x - self.pose.position.x) + 6.28)
-          self.thetaT = self.thetaT2
+        if len(contours) > 0:
+            c = max(contours, key=cv2.contourArea)
+            M = cv2.moments(c)
+            if M['m00'] != 0:
+                self.cx = int(M['m10']/M['m00'])
+                cy = int(M['m01']/M['m00'])
+                cv2.line(crop,(self.cx,0),(self.cx,720),(255,0,0),1)
+                cv2.line(crop,(0,cy),(1280,cy),(255,0,0),1)
+                frame = cv2.drawContours(crop, c, -1, (255,255,0), 1)
 
+        return self.cx
+
+
+    #Function to make a 90 degrees turn
+    def turn90(self, orientation):
+        line=0.15
+        speed=0.1*orientation
+        self.move(line,0,0,0,0,speed)
+        print("turn90")
+        return self.msg 
         
-        self.errorAng = self.thetaT - self.pose.orientation.z
-        self.angV = 0.65*self.errorAng
+    #Function to stop 
+    def stop(self):
+        self.move(0,0,0,0,0,0)
+        print("stop")
+        return self.msg 
+        
+    #Function to folow an straight line
+    def cross(self):
+        self.move(0.1,0,0,0,0,0)
+        print("cross")
+        return self.msg 
+        
+    #FUnction to implement the PD controller, defines the linear and angular velocity
+    def lineFollower(self, desired_pos,point):
+        error=desired_pos-point
+        avg=0
+        current_time=rospy.get_time()
+        dt=current_time-self.last_time
+        
+        pd=self.p*error + self.d*(error-self.prev_error)/dt
 
-        if round(abs(self.errorAng), 3)-0.01 < 0:
-          self.turn = False
-          self.angV = 0
-          self.move()
-          print("done turning")
-          rospy.sleep(0.1)
-        else:
-          self.move(0, 0, 0, 0, 0, self.angV)
+        self.prev_error=error
+        self.last_time=current_time
 
-      else:
-        self.errorLin = np.sqrt(np.power((self.target.x - self.pose.position.x),2) + np.power((self.target.y - self.pose.position.y),2))
-        print(self.errorLin)
-        if self.errorLin - 0.10 < 0: # CHANGE
-          self.linV = 0
-          self.move()
-          rospy.sleep(1)
-          print("Done point " + str(self.current))
+        speed=round(float(pd),2)        
 
-          self.current += 1
-          if self.current > len(self.points)-1:
-            self.current = 0
-          
-          self.target.x = self.points[self.current][0]
-          self.target.y = self.points[self.current][1]
-          #print(self.target.x)
-          #print(self.target.y)
-          self.turn = True
-          
-        else:
-          self.linV = 0.42*self.errorLin 
-          self.move(self.linV, 0, 0, 0, 0, 0)
+        if len(self.avgError) >= 10:
+            self.avgError.pop()
+        self.avgError.append(error)
+        
+        for error in self.avgError:
+            avg += error
+        
+        avg = avg / len(self.avgError)
 
-  def move(self, x=0, y=0, z=0, wx=0, wy=0, wz=0):
-    self.msg.linear.x = x
-    self.msg.linear.y = y
-    self.msg.linear.z = z
+        vel=abs(self.maxSpeed-(abs(float(avg))/1000))
+        line=round(vel,3)
+        
+        self.move(line,0,0,0,0,speed)
 
-    self.msg.angular.x = wx
-    self.msg.angular.y = wy
-    self.msg.angular.z = wz
 
-    self.publisher.publish(self.msg)
+    #Function to set corresponding speed values 
+    def move(self, x=0, y=0, z=0, wx=0, wy=0, wz=0):
+        self.msg.linear.x = x
+        self.msg.linear.y = y
+        self.msg.linear.z = z
 
-  def cbPose(self, msg):
-    self.pose = msg
+        self.msg.angular.x = wx
+        self.msg.angular.y = wy
+        self.msg.angular.z = wz
 
-  def stop(self):
-    rospy.loginfo("Closing controller...")
-    self.move()
     
- if __name__ == "__main__":
-  control = open_loop()
+    #Function to receive image and give corresponding configurations 
+    def callback(self, image):
+        self.cv_image=cv2.flip(image,0)
+        self.cv_image=cv2.flip(self.cv_image,1)
+        
+        self.cv_image=cv2.resize(self.cv_image,(self.width,self.height))
+        
+        crop_h_start, crop_h_stop, crop_w_start, crop_w_stop = self.crop_size(self.height, self.width)
+        crop = self.cv_image[crop_h_start:crop_h_stop, crop_w_start:crop_w_stop]
+        crop_h, crop_w,_=crop.shape
+        self.desired_pos=crop_w/2
+        
+        self.point=self.crop_thres(crop)
+        self.lineFollower(self.desired_pos, self.point)
+        return self.msg
+
+        
